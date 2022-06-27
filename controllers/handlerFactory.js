@@ -46,7 +46,7 @@ exports.createOne = Model =>
 
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findById(req.params.id);
+    let doc = await Model.findById(req.params.id);
     if (popOptions) {
       doc = doc.populate(popOptions);
     }
