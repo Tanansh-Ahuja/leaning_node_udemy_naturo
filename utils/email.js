@@ -1,35 +1,27 @@
 const nodemailer = require('nodemailer');
-const catchAsync = require('./../utils/catchAsync');
 
-const sendEmail = catchAsync(async options => {
-  //1. CREATE TRANSPORTER
+const sendEmail = async options => {
+  // 1) Create a transporter
   const transporter = nodemailer.createTransport({
-    host: 'smtp.mailtrap.io',
-    port: 2525,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
-      user: 'd3f723a93244eb',
-      pass: '4c07ea8d253421'
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD
     }
   });
-  // const transporter = nodemailer.createTransporter({
-  //     service: 'Gmail',
-  //     auth:{
-  //         user:process.env.EMAIL_USERNAME,
-  //         pass:process.env.EMAIL_PASSWORD,
-  //     }
-  //     //activate in gmail "less secure app" option
-  // });
 
-  //2. DEFINE EMAIL OPTIONS
+  // 2) Define the email options
   const mailOptions = {
-    from: 'Tanansh Ahuja <tananshahuja17@gmail.com>',
+    from: 'Jonas Schmedtmann <hello@jonas.io>',
     to: options.email,
     subject: options.subject,
-    text: options.text
+    text: options.message
+    // html:
   };
 
-  //3. SEND THE EMAIL
+  // 3) Actually send the email
   await transporter.sendMail(mailOptions);
-});
+};
 
 module.exports = sendEmail;
